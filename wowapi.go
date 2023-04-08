@@ -2,8 +2,8 @@ package wowapi
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -17,12 +17,12 @@ type BlizzardAPIBearerToken struct {
 	ExpiresIn   int    `json:"expires_in"`
 }
 
-func Client(ApiClientId string, ApiSecret string) RequestFunc {
+func Client(ApiClientId string, ApiSecret string) (RequestFunc, error) {
 	client := &http.Client{}
 
 	token, err := blizzardToken(ApiClientId, ApiSecret)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	return func(url string) ([]byte, error) {
@@ -39,18 +39,22 @@ func Client(ApiClientId string, ApiSecret string) RequestFunc {
 		}
 		defer resp.Body.Close()
 
+		if resp.StatusCode != http.StatusOK {
+			return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+		}
+
 		bodyText, err := io.ReadAll(resp.Body)
 		if err != nil {
 			return nil, err
 		}
 
 		return bodyText, nil
-	}
+	}, nil
 }
 
 func blizzardToken(ApiClientId string, ApiSecret string) (token BlizzardAPIBearerToken, err error) {
 	client := &http.Client{}
-	URL := "https://eu.battle.net/oauth/token?grant_type=client_credentials"
+	URL := "https://oauth.battle.net/token?grant_type=client_credentials"
 	v := url.Values{}
 	v.Set("grant_type", "client_credentials")
 
@@ -64,6 +68,10 @@ func blizzardToken(ApiClientId string, ApiSecret string) (token BlizzardAPIBeare
 		return token, err
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return token, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
 
 	bodyText, err := io.ReadAll(resp.Body)
 	if err != nil {
