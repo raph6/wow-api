@@ -16,7 +16,7 @@ type Profession struct {
 		Tier           struct {
 			Name string `json:"name"`
 			Id   int    `json:"id"`
-		}
+		} `json:"tier"`
 		KnownRecipes []struct {
 			Name string `json:"name"`
 			Id   int    `json:"id"`
