@@ -1,7 +1,7 @@
 package wowapi
 
 type Encounters struct {
-	_links struct {
+	Links struct {
 		Self struct {
 			Href string `json:"href"`
 		} `json:"self"`
@@ -13,12 +13,12 @@ type Encounters struct {
 		Name  string  `json:"name"`
 		Id    float64 `json:"id"`
 		Realm struct {
-			Key struct {
-				Href string `json:"href"`
-			} `json:"key"`
 			Name string  `json:"name"`
 			Id   float64 `json:"id"`
 			Slug string  `json:"slug"`
+			Key  struct {
+				Href string `json:"href"`
+			} `json:"key"`
 		} `json:"realm"`
 	} `json:"character"`
 	Dungeons struct {

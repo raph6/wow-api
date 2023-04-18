@@ -1,7 +1,18 @@
 package wowapi
 
 type Collections struct {
+	Heirlooms struct {
+		Href string `json:"href"`
+	} `json:"heirlooms"`
+	Toys struct {
+		Href string `json:"href"`
+	} `json:"toys"`
 	Character struct {
+		Key struct {
+			Href string `json:"href"`
+		} `json:"key"`
+		Name  string  `json:"name"`
+		Id    float64 `json:"id"`
 		Realm struct {
 			Key struct {
 				Href string `json:"href"`
@@ -10,13 +21,8 @@ type Collections struct {
 			Id   float64 `json:"id"`
 			Slug string  `json:"slug"`
 		} `json:"realm"`
-		Key struct {
-			Href string `json:"href"`
-		} `json:"key"`
-		Name string  `json:"name"`
-		Id   float64 `json:"id"`
 	} `json:"character"`
-	_links struct {
+	Links struct {
 		Self struct {
 			Href string `json:"href"`
 		} `json:"self"`
@@ -27,10 +33,4 @@ type Collections struct {
 	Mounts struct {
 		Href string `json:"href"`
 	} `json:"mounts"`
-	Heirlooms struct {
-		Href string `json:"href"`
-	} `json:"heirlooms"`
-	Toys struct {
-		Href string `json:"href"`
-	} `json:"toys"`
 }

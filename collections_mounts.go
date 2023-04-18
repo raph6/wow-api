@@ -1,7 +1,7 @@
 package wowapi
 
 type CollectionsMounts struct {
-	_links struct {
+	Links struct {
 		Self struct {
 			Href string `json:"href"`
 		} `json:"self"`
@@ -14,6 +14,6 @@ type CollectionsMounts struct {
 			Name string  `json:"name"`
 			Id   float64 `json:"id"`
 		} `json:"mount"`
-		Is_useable bool `json:"is_useable"`
+		IsUseable bool `json:"is_useable"`
 	} `json:"mounts"`
 }

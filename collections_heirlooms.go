@@ -1,6 +1,11 @@
 package wowapi
 
 type CollectionsHeirlooms struct {
+	Links struct {
+		Self struct {
+			Href string `json:"href"`
+		} `json:"self"`
+	} `json:"_links"`
 	Heirlooms []struct {
 		Heirloom struct {
 			Key struct {
@@ -13,9 +18,4 @@ type CollectionsHeirlooms struct {
 			Level float64 `json:"level"`
 		} `json:"upgrade"`
 	} `json:"heirlooms"`
-	_links struct {
-		Self struct {
-			Href string `json:"href"`
-		} `json:"self"`
-	} `json:"_links"`
 }

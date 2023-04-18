@@ -1,7 +1,7 @@
 package wowapi
 
 type QuestsCompleted struct {
-	_links struct {
+	Links struct {
 		Self struct {
 			Href string `json:"href"`
 		} `json:"self"`
@@ -13,19 +13,19 @@ type QuestsCompleted struct {
 		Name  string  `json:"name"`
 		Id    float64 `json:"id"`
 		Realm struct {
+			Key struct {
+				Href string `json:"href"`
+			} `json:"key"`
 			Name string  `json:"name"`
 			Id   float64 `json:"id"`
 			Slug string  `json:"slug"`
-			Key  struct {
-				Href string `json:"href"`
-			} `json:"key"`
 		} `json:"realm"`
 	} `json:"character"`
 	Quests []struct {
-		Name string  `json:"name"`
-		Id   float64 `json:"id"`
-		Key  struct {
+		Key struct {
 			Href string `json:"href"`
 		} `json:"key"`
+		Name string  `json:"name"`
+		Id   float64 `json:"id"`
 	} `json:"quests"`
 }
