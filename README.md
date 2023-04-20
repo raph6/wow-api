@@ -4,6 +4,8 @@ This is a simple wrapper for the World of Warcraft API written in Go.
 
 ## Usage
 
+Get your API Access here : https://develop.battle.net/access/clients
+
 Installation
 ```sh
 go get -u github.com/raph6/wowapi
@@ -79,3 +81,5 @@ Todo
 ```sh
 API_CLIENT_ID=xxxxx API_SECRET=xxxxx go test
 ```
+
+Official documentation : https://develop.battle.net/documentation/world-of-warcraft
