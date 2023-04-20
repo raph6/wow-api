@@ -1,5 +1,10 @@
 package wowapi
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 type CollectionsPets struct {
 	Links struct {
 		Self struct {
@@ -7,6 +12,13 @@ type CollectionsPets struct {
 		} `json:"self"`
 	} `json:"_links"`
 	Pets []struct {
+		CreatureDisplay struct {
+			Id  float64 `json:"id"`
+			Key struct {
+				Href string `json:"href"`
+			} `json:"key"`
+		} `json:"creature_display"`
+		Id      float64 `json:"id"`
 		Species struct {
 			Key struct {
 				Href string `json:"href"`
@@ -25,13 +37,20 @@ type CollectionsPets struct {
 			Power   float64 `json:"power"`
 			Speed   float64 `json:"speed"`
 		} `json:"stats"`
-		CreatureDisplay struct {
-			Key struct {
-				Href string `json:"href"`
-			} `json:"key"`
-			Id float64 `json:"id"`
-		} `json:"creature_display"`
-		Id float64 `json:"id"`
 	} `json:"pets"`
 	UnlockedBattlePetSlots float64 `json:"unlocked_battle_pet_slots"`
+}
+
+func (req RequestFunc) CharacterCollectionsPets(realm string, name string) (s CollectionsPets, err error) {
+	url := fmt.Sprintf("/profile/wow/character/%s/%s/collections/pets", realm, name)
+	body, err := req(url)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(body, &s)
+	if err != nil {
+		return
+	}
+	return
 }

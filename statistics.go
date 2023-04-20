@@ -62,7 +62,7 @@ type Rating struct {
 }
 
 func (req RequestFunc) CharacterStats(realm string, name string) (stats interface{}, err error) {
-	url := fmt.Sprintf("https://eu.api.blizzard.com/profile/wow/character/%s/%s/statistics?namespace=profile-eu&locale=fr_FR", realm, name)
+	url := fmt.Sprintf("/profile/wow/character/%s/%s/statistics", realm, name)
 	body, err := req(url)
 	if err != nil {
 		return nil, err

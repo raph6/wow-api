@@ -1,5 +1,10 @@
 package wowapi
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 type EncountersRaids struct {
 	Links struct {
 		Self struct {
@@ -22,6 +27,13 @@ type EncountersRaids struct {
 		} `json:"realm"`
 	} `json:"character"`
 	Expansions []struct {
+		Expansion struct {
+			Key struct {
+				Href string `json:"href"`
+			} `json:"key"`
+			Name string  `json:"name"`
+			Id   float64 `json:"id"`
+		} `json:"expansion"`
 		Instances []struct {
 			Instance struct {
 				Key struct {
@@ -44,11 +56,11 @@ type EncountersRaids struct {
 					TotalCount     float64 `json:"total_count"`
 					Encounters     []struct {
 						Encounter struct {
+							Id  float64 `json:"id"`
 							Key struct {
 								Href string `json:"href"`
 							} `json:"key"`
-							Name string  `json:"name"`
-							Id   float64 `json:"id"`
+							Name string `json:"name"`
 						} `json:"encounter"`
 						CompletedCount    float64 `json:"completed_count"`
 						LastKillTimestamp float64 `json:"last_kill_timestamp"`
@@ -56,12 +68,19 @@ type EncountersRaids struct {
 				} `json:"progress"`
 			} `json:"modes"`
 		} `json:"instances"`
-		Expansion struct {
-			Key struct {
-				Href string `json:"href"`
-			} `json:"key"`
-			Name string  `json:"name"`
-			Id   float64 `json:"id"`
-		} `json:"expansion"`
 	} `json:"expansions"`
+}
+
+func (req RequestFunc) CharacterEncountersRaids(realm string, name string) (s EncountersRaids, err error) {
+	url := fmt.Sprintf("/profile/wow/character/%s/%s/encounters/raids", realm, name)
+	body, err := req(url)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(body, &s)
+	if err != nil {
+		return
+	}
+	return
 }

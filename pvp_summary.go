@@ -1,6 +1,27 @@
 package wowapi
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 type PvpSummary struct {
+	HonorableKills float64 `json:"honorable_kills"`
+	Character      struct {
+		Key struct {
+			Href string `json:"href"`
+		} `json:"key"`
+		Name  string  `json:"name"`
+		Id    float64 `json:"id"`
+		Realm struct {
+			Key struct {
+				Href string `json:"href"`
+			} `json:"key"`
+			Name string  `json:"name"`
+			Id   float64 `json:"id"`
+			Slug string  `json:"slug"`
+		} `json:"realm"`
+	} `json:"character"`
 	Links struct {
 		Self struct {
 			Href string `json:"href"`
@@ -21,20 +42,18 @@ type PvpSummary struct {
 			Lost   float64 `json:"lost"`
 		} `json:"match_statistics"`
 	} `json:"pvp_map_statistics"`
-	HonorableKills float64 `json:"honorable_kills"`
-	Character      struct {
-		Name  string  `json:"name"`
-		Id    float64 `json:"id"`
-		Realm struct {
-			Id   float64 `json:"id"`
-			Slug string  `json:"slug"`
-			Key  struct {
-				Href string `json:"href"`
-			} `json:"key"`
-			Name string `json:"name"`
-		} `json:"realm"`
-		Key struct {
-			Href string `json:"href"`
-		} `json:"key"`
-	} `json:"character"`
+}
+
+func (req RequestFunc) CharacterPvpSummary(realm string, name string) (s PvpSummary, err error) {
+	url := fmt.Sprintf("/profile/wow/character/%s/%s/pvp-summary", realm, name)
+	body, err := req(url)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(body, &s)
+	if err != nil {
+		return
+	}
+	return
 }
