@@ -23,8 +23,8 @@ type BlizzardAPIBearerToken struct {
 // region: us | eu | kr | tw
 // lang: en_US | es_MX | pt_BR | en_GB | es_ES | fr_FR | ru_RU | de_DE | pt_PT | it_IT | zh_TW | ko_KR
 func Client(ApiClientId string, ApiSecret string, region string, lang string) (RequestFunc, error) {
-	acceptedRegion := []string{"us", "eu", "kr", "tw"}
-	acceptedLang := []string{"en_US", "es_MX", "pt_BR", "en_GB", "es_ES", "fr_FR", "ru_RU", "de_DE", "pt_PT", "it_IT", "zh_TW", "ko_KR"}
+	acceptedRegion := []string{"us", "eu", "kr", "tw", "cn"}
+	acceptedLang := []string{"en_US", "es_MX", "pt_BR", "en_GB", "es_ES", "fr_FR", "ru_RU", "de_DE", "pt_PT", "it_IT", "zh_TW", "ko_KR", "zh_CN"}
 
 	if !contains(acceptedRegion, region) {
 		return nil, fmt.Errorf("invalid region: %s", region)
@@ -41,7 +41,12 @@ func Client(ApiClientId string, ApiSecret string, region string, lang string) (R
 		return nil, err
 	}
 
-	urlStart := "https://" + region + ".api.blizzard.com"
+	var urlStart string
+	if region == "cn" {
+		urlStart = "https://gateway.battlenet.com.cn"
+	} else {
+		urlStart = "https://" + region + ".api.blizzard.com"
+	}
 	urlEnd := "?namespace=profile-" + region + "&locale=" + lang
 
 	return func(url string) ([]byte, error) {
