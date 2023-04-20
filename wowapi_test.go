@@ -14,7 +14,7 @@ func TestMain(m *testing.M) {
 	token := os.Getenv("API_CLIENT_ID")
 	secret := os.Getenv("API_SECRET")
 	var err error
-	req, err = wowapi.Client(token, secret)
+	req, err = wowapi.Client(token, secret, "eu", "fr_FR")
 	if err != nil {
 		panic(err)
 	}
