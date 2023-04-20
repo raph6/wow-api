@@ -82,4 +82,6 @@ Todo
 API_CLIENT_ID=xxxxx API_SECRET=xxxxx go test
 ```
 
+## Links
+
 Official documentation : https://develop.battle.net/documentation/world-of-warcraft
