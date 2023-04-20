@@ -15,9 +15,13 @@ import "github.com/raph6/wowapi"
 
 func main() {
     // API_CLIENT_ID, API_SECRET, region, lang
-    client := wowapi.NewClient("xx_API_CLIENT_ID_xx", "xx_API_SECRET_xx", "eu", "fr_FR")
     // accepted region ->  eu | us | kr | tw
-    // accepted lang ->  en_US | es_MX | pt_BR | en_GB | es_ES | fr_FR | ru_RU | de_DE | pt_PT | it_IT | zh_TW | ko_KR
+    // accepted lang -> en_US | es_MX | pt_BR | en_GB | es_ES | fr_FR | ru_RU | de_DE | pt_PT | it_IT | zh_TW | ko_KR
+    client, err := wowapi.NewClient("xx_API_CLIENT_ID_xx", "xx_API_SECRET_xx", "eu", "fr_FR")
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
 
     // Realm, Name
     titles, err := client.CharacterTitles("Kirin-Tor", "Vimdiesel")

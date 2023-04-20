@@ -41,17 +41,25 @@ func Client(ApiClientId string, ApiSecret string, region string, lang string) (R
 		return nil, err
 	}
 
+	var urlStart string
+	var urlEnd string
+	switch region {
+	case "us":
+		urlStart = "https://us.api.blizzard.com"
+		urlEnd = "?namespace=profile-us&locale=" + lang
+	case "eu":
+		urlStart = "https://eu.api.blizzard.com"
+		urlEnd = "?namespace=profile-eu&locale=" + lang
+	case "kr":
+		urlStart = "https://kr.api.blizzard.com"
+		urlEnd = "?namespace=profile-kr&locale=" + lang
+	case "tw":
+		urlStart = "https://tw.api.blizzard.com"
+		urlEnd = "?namespace=profile-tw&locale=" + lang
+	}
+
 	return func(url string) ([]byte, error) {
-		switch region {
-		case "us":
-			url = "https://us.api.blizzard.com" + url + "?namespace=profile-us&locale=" + lang
-		case "eu":
-			url = "https://eu.api.blizzard.com" + url + "?namespace=profile-eu&locale=" + lang
-		case "kr":
-			url = "https://kr.api.blizzard.com" + url + "?namespace=profile-kr&locale=" + lang
-		case "tw":
-			url = "https://tw.api.blizzard.com" + url + "?namespace=profile-tw&locale=" + lang
-		}
+		url = urlStart + url + urlEnd
 		req, err := http.NewRequest("GET", url, nil)
 		if err != nil {
 			return nil, err
