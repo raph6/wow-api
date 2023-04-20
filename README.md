@@ -52,6 +52,12 @@ client.CharacterQuests(realm string, name string)
 client.CharacterSoulbinds(realm string, name string)
 ```
 
+Todo
+- [ ] All tests
+- [ ] Raider.io
+- [ ] Hunter pets methods
+
+
 ## Tests
 
 ```sh
