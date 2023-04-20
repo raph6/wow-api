@@ -56,6 +56,18 @@ client.CharacterQuests(realm string, name string)
 client.CharacterSoulbinds(realm string, name string)
 ```
 
+You can also use the client like this
+```go
+req, err := wowapi.Client("xx_API_CLIENT_ID_xx", "xx_API_SECRET_xx", "eu", "fr_FR")
+...
+body, err := req("/profile/wow/character/kirin-tor/vimdiesel/statistics")
+...
+var data interface{}
+err = json.Unmarshal(body, &data)
+...
+fmt.Println(data)
+```
+
 Todo
 - [ ] All tests
 - [ ] Raider.io
