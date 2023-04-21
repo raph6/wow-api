@@ -20,8 +20,9 @@ type BlizzardAPIBearerToken struct {
 // Client returns a RequestFunc that can be used to make requests to the Blizzard API.
 // The returned RequestFunc will use the provided API key to authenticate requests.
 // ApiClientId and ApiSecret are the client zh_CNid and secret for the Blizzard API.
-// region: us | eu | kr | tw
-// lang: en_US | es_MX | pt_BR | en_GB | es_ES | fr_FR | ru_RU | de_DE | pt_PT | it_IT | zh_TW | ko_KR
+//
+//	region: us | eu | kr | tw | cn
+//	lang: en_US | es_MX | pt_BR | en_GB | es_ES | fr_FR | ru_RU | de_DE | pt_PT | it_IT | zh_TW | ko_KR | zh_CN
 func Client(ApiClientId string, ApiSecret string, region string, lang string) (RequestFunc, error) {
 	acceptedRegion := []string{"us", "eu", "kr", "tw", "cn"}
 	acceptedLang := []string{"en_US", "es_MX", "pt_BR", "en_GB", "es_ES", "fr_FR", "ru_RU", "de_DE", "pt_PT", "it_IT", "zh_TW", "ko_KR", "zh_CN"}
@@ -36,7 +37,7 @@ func Client(ApiClientId string, ApiSecret string, region string, lang string) (R
 
 	client := &http.Client{}
 
-	token, err := blizzardToken(ApiClientId, ApiSecret)
+	token, err := blizzardToken(ApiClientId, ApiSecret, region)
 	if err != nil {
 		return nil, err
 	}
@@ -77,9 +78,14 @@ func Client(ApiClientId string, ApiSecret string, region string, lang string) (R
 	}, nil
 }
 
-func blizzardToken(ApiClientId string, ApiSecret string) (token BlizzardAPIBearerToken, err error) {
+func blizzardToken(ApiClientId string, ApiSecret string, region string) (token BlizzardAPIBearerToken, err error) {
 	client := &http.Client{}
-	URL := "https://oauth.battle.net/token?grant_type=client_credentials"
+	var URL string
+	if region == "cn" {
+		URL = "https://oauth.battlenet.com.cn/token?grant_type=client_credentials"
+	} else {
+		URL = "https://oauth.battle.net/token?grant_type=client_credentials"
+	}
 	v := url.Values{}
 	v.Set("grant_type", "client_credentials")
 
