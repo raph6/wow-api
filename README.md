@@ -56,6 +56,11 @@ client.CharacterPvpSummary(realm string, name string)
 client.CharacterQuestsCompleted(realm string, name string)
 client.CharacterQuests(realm string, name string)
 client.CharacterSoulbinds(realm string, name string)
+client.CharacterSpecializations(realm string, name string)
+client.CharacterReputations(realm string, name string)
+client.CharacterProfessions(realm string, name string)
+client.CharacterInfo(realm string, name string)
+client.CharacterHunterPets(realm string, name string)
 ```
 
 You can also use the client like this
@@ -73,7 +78,6 @@ fmt.Println(data)
 Todo
 - [ ] All tests
 - [ ] Raider.io
-- [ ] Hunter pets methods
 
 
 ## Tests
