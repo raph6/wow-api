@@ -104,9 +104,7 @@ type Equipment struct {
 			DisplayString string  `json:"display_string"`
 		} `json:"level"`
 		Quantity  float64 `json:"quantity"`
-		BonusList []struct {
-			BonusList float64 `json:"bonus_list"`
-		} `json:"bonus_list"`
+		BonusList []int64 `json:"bonus_list"`
 		ItemClass struct {
 			Key struct {
 				Href string `json:"href"`

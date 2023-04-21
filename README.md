@@ -77,8 +77,10 @@ fmt.Println(data)
 ```
 
 Todo
-- [ ] All tests
-- [ ] Raider.io
+- [ ] pvp_summary_test.go
+- [ ] hunter_pets_test.go
+- [ ] soulbinds_test.go
+- [ ] Raider.io API
 
 
 ## Tests
