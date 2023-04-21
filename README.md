@@ -61,6 +61,7 @@ client.CharacterReputations(realm string, name string)
 client.CharacterProfessions(realm string, name string)
 client.CharacterInfo(realm string, name string)
 client.CharacterHunterPets(realm string, name string)
+client.CharacterStatistics(realm string, name string)
 ```
 
 You can also use the client like this

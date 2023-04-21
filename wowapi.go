@@ -51,7 +51,7 @@ func Client(ApiClientId string, ApiSecret string, region string, lang string) (R
 	urlEnd := "?namespace=profile-" + region + "&locale=" + lang
 
 	return func(url string) ([]byte, error) {
-		url = urlStart + url + urlEnd
+		url = urlStart + strings.ToLower(url) + urlEnd
 		req, err := http.NewRequest("GET", url, nil)
 		if err != nil {
 			return nil, err
