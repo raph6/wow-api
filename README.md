@@ -26,7 +26,8 @@ func main() {
     }
 
     // Realm, Name
-    titles, err := client.CharacterTitles("Kirin-Tor", "Vimdiesel")
+    // realm must be slugified and name must be lowercase
+    titles, err := client.CharacterTitles("kirin-tor", "vimdiesel")
     if err != nil {
         fmt.Println(err)
         return
