@@ -61,8 +61,21 @@ type Professions struct {
 				Href string `json:"href"`
 			} `json:"key"`
 		} `json:"profession"`
-		SkillPoints    float64 `json:"skill_points"`
-		MaxSkillPoints float64 `json:"max_skill_points"`
+		Tiers []struct {
+			KnownRecipes []struct {
+				Key struct {
+					Href string `json:"href"`
+				} `json:"key"`
+				Name string  `json:"name"`
+				Id   float64 `json:"id"`
+			} `json:"known_recipes"`
+			SkillPoints    float64 `json:"skill_points"`
+			MaxSkillPoints float64 `json:"max_skill_points"`
+			Tier           struct {
+				Id   float64 `json:"id"`
+				Name string  `json:"name"`
+			} `json:"tier"`
+		} `json:"tiers"`
 	} `json:"secondaries"`
 }
 
