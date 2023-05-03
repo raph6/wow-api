@@ -76,6 +76,8 @@ type Professions struct {
 				Name string  `json:"name"`
 			} `json:"tier"`
 		} `json:"tiers"`
+		SkillPoints    float64 `json:"skill_points"`
+		MaxSkillPoints float64 `json:"max_skill_points"`
 	} `json:"secondaries"`
 }
 
