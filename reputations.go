@@ -30,11 +30,12 @@ type Reputations struct {
 			Id   float64 `json:"id"`
 		} `json:"faction"`
 		Standing struct {
-			Raw   float64 `json:"raw"`
-			Value float64 `json:"value"`
-			Max   float64 `json:"max"`
-			Tier  float64 `json:"tier"`
-			Name  string  `json:"name"`
+			Raw         float64 `json:"raw"`
+			Value       float64 `json:"value"`
+			Max         float64 `json:"max"`
+			Tier        float64 `json:"tier"`
+			Name        string  `json:"name"`
+			RenownLevel int64   `json:"renown_level"`
 		} `json:"standing"`
 	} `json:"reputations"`
 	Links struct {
