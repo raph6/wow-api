@@ -80,6 +80,7 @@ fmt.Println(data)
 
 Todo
 - [ ] pvp_summary_test.go
+- [ ] pvp_bracket_test.go
 - [ ] hunter_pets_test.go
 - [ ] soulbinds_test.go
 - [ ] Raider.io API
