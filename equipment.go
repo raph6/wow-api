@@ -179,6 +179,14 @@ type Equipment struct {
 			} `json:"item"`
 			DisplayString string `json:"display_string"`
 		} `json:"sockets"`
+		Enchantments []struct {
+			DisplayString   string `json:"display_string"`
+			EnchantmentId   int64  `json:"enchantment_id"`
+			EnchantmentSlot struct {
+				Type string `json:"type"`
+				ID   int64  `json:"id"`
+			} `json:"enchantment_slot"`
+		} `json:"enchantments"`
 		Quality struct {
 			Type string `json:"type"`
 			Name string `json:"name"`
