@@ -19,6 +19,8 @@ type BlizzardAPIBearerToken struct {
 	ExpiresIn   int    `json:"expires_in"`
 }
 
+var token BlizzardAPIBearerToken
+
 // Client returns a RequestFunc that can be used to make requests to the Blizzard API.
 // The returned RequestFunc will use the provided API key to authenticate requests.
 // ApiClientId and ApiSecret are the client zh_CNid and secret for the Blizzard API.
@@ -42,7 +44,7 @@ func Client(ApiClientId string, ApiSecret string, region string, lang string) (R
 
 	client := &http.Client{}
 
-	token, err := blizzardToken(ApiClientId, ApiSecret, region)
+	err := blizzardToken(ApiClientId, ApiSecret, region)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +88,7 @@ func Client(ApiClientId string, ApiSecret string, region string, lang string) (R
 	}, nil
 }
 
-func blizzardToken(ApiClientId string, ApiSecret string, region string) (token BlizzardAPIBearerToken, err error) {
+func blizzardToken(ApiClientId string, ApiSecret string, region string) (err error) {
 	client := &http.Client{}
 	var URL string
 	if region == "cn" {
@@ -102,31 +104,31 @@ func blizzardToken(ApiClientId string, ApiSecret string, region string) (token B
 	defer cancel()
 	req = req.WithContext(ctx)
 	if err != nil {
-		return token, err
+		return err
 	}
 	req.SetBasicAuth(ApiClientId, ApiSecret)
 	resp, err := client.Do(req)
 	if err != nil {
-		return token, err
+		return err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return token, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+		return fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 	}
 
 	bodyText, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return token, err
+		return err
 	}
 
 	err = json.Unmarshal(bodyText, &token)
 	if err != nil {
-		return token, err
+		return err
 	}
 
 	// fmt.Println(string(bodyText))
-	return token, nil
+	return nil
 }
 
 func contains(s []string, e string) bool {
@@ -136,4 +138,8 @@ func contains(s []string, e string) bool {
 		}
 	}
 	return false
+}
+
+func GetToken() BlizzardAPIBearerToken {
+	return token
 }

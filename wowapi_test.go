@@ -28,6 +28,11 @@ func TestMain(m *testing.M) {
 		panic(err)
 	}
 
+	tok := wowapi.GetToken()
+	if tok.AccessToken == "" {
+		panic("No token")
+	}
+
 	code := m.Run()
 
 	os.Exit(code)
