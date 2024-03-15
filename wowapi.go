@@ -1,12 +1,14 @@
 package wowapi
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
 
 type RequestFunc func(url string) ([]byte, error)
@@ -25,14 +27,17 @@ type BlizzardAPIBearerToken struct {
 //	lang: en_US | es_MX | pt_BR | en_GB | es_ES | fr_FR | ru_RU | de_DE | pt_PT | it_IT | zh_TW | ko_KR | zh_CN
 func Client(ApiClientId string, ApiSecret string, region string, lang string) (RequestFunc, error) {
 	acceptedRegion := []string{"us", "eu", "kr", "tw", "cn"}
-	acceptedLang := []string{"en_US", "es_MX", "pt_BR", "en_GB", "es_ES", "fr_FR", "ru_RU", "de_DE", "pt_PT", "it_IT", "zh_TW", "ko_KR", "zh_CN"}
+	acceptedLang := []string{
+		"en_US", "es_MX", "pt_BR", "en_GB", "es_ES",
+		"fr_FR", "ru_RU", "de_DE", "pt_PT", "it_IT", "zh_TW", "ko_KR", "zh_CN",
+	}
 
 	if !contains(acceptedRegion, region) {
-		return nil, fmt.Errorf("invalid region: %s", region)
+		return nil, fmt.Errorf("invalid region")
 	}
 
 	if !contains(acceptedLang, lang) {
-		return nil, fmt.Errorf("invalid lang: %s", lang)
+		return nil, fmt.Errorf("invalid lang")
 	}
 
 	client := &http.Client{}
@@ -52,10 +57,13 @@ func Client(ApiClientId string, ApiSecret string, region string, lang string) (R
 
 	return func(url string) ([]byte, error) {
 		url = urlStart + url + urlEnd
-		req, err := http.NewRequest("GET", url, nil)
+		req, err := http.NewRequest(http.MethodGet, url, nil)
 		if err != nil {
 			return nil, err
 		}
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		req = req.WithContext(ctx)
 
 		req.Header.Set("Authorization", "Bearer "+token.AccessToken)
 
@@ -89,7 +97,10 @@ func blizzardToken(ApiClientId string, ApiSecret string, region string) (token B
 	v := url.Values{}
 	v.Set("grant_type", "client_credentials")
 
-	req, err := http.NewRequest("POST", URL, strings.NewReader(v.Encode()))
+	req, err := http.NewRequest(http.MethodPost, URL, strings.NewReader(v.Encode()))
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	req = req.WithContext(ctx)
 	if err != nil {
 		return token, err
 	}
